@@ -39,9 +39,14 @@ public class Password {
      * @return the 6-digit number that matches, or null if no match is found
      */
     public static String bruteForce6Digit(String targetHash) {
-
-        // Code here
-
+        for (int a = 0; a < 999999; ++a) {
+            String digit = String.format("%06d", a);
+            String attempt = hashPassword(digit);
+            if (attempt.equals(targetHash)) { // Comparaison correcte en Java
+                System.out.println(digit);
+                System.exit(0); // break Sort uniquement de la boucle `f`, les autres boucles continuent
+            }
+        }
         return null;
     }
 
@@ -59,11 +64,47 @@ public class Password {
      * @param password the password to check
      * @return true if the password is strong, false otherwise
      */
+
     public static boolean isStrongPassword(String password) {
+        boolean min_len = false;
+        boolean uppercase = false;
+        boolean lowercase = false;
+        boolean one_digit = false;
+        boolean no_whitespace = true;
+        List<Character> charList = new ArrayList<>();
 
-        // Code here
+        for (char c : password.toCharArray()) {
+            charList.add(c);
+        }
 
-        return false;
+        if (password.length() > 11) {
+            min_len = true;
+        }
+
+        for (Character car : charList) {
+            if (car.equals(' ')) {
+                no_whitespace = false;
+            } else if (Character.isUpperCase(car)) {
+                uppercase = true;
+            } else if (Character.isLowerCase(car)) {
+                lowercase = true;
+            } else if (Character.isDigit(car)) {
+                one_digit = true;
+            }
+        }
+
+        if (min_len && no_whitespace && uppercase && lowercase && one_digit) {
+            System.out.println("Bon mot de passe");
+            return true;
+        } else {
+            System.out.println("Mot de passe non conforme : "
+                    + "min_len=" + min_len + ", "
+                    + "no_whitespace=" + no_whitespace + ", "
+                    + "uppercase=" + uppercase + ", "
+                    + "lowercase=" + lowercase + ", "
+                    + "one_digit=" + one_digit);
+            return false;
+        }
     }
 
     /**
