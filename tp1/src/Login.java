@@ -6,13 +6,30 @@ import java.util.Scanner;
 
 public class Login {
     public static void main(String[] args) {
-        HashMap<String, String> userDatabase = loadUserDatabase("../data/user_hashpwd.csv");
+        HashMap<String, String> userDatabase = loadUserDatabase(
+                "/home/onyxia/work/ENSAI-2A-Java-TP/tp1/data/user_hashpwd.csv");
+        boolean loginsuccessful = false;
         Scanner scanner = new Scanner(System.in);
+        while (!loginsuccessful) {
+            System.out.print("Enter username: ");
+            String username = scanner.nextLine();
+            if (userDatabase.containsKey(username)) {
+                System.out.print("Enter password: ");
+                String password = scanner.nextLine();
+                String password_hash = Password.hashPassword(password);
 
-        while (true) {
-
-            // Code here
+                // Vérifier si le mot de passe haché correspond à celui de la base de données
+                if (password_hash.equals(userDatabase.get(username))) {
+                    System.out.println("Login successful");
+                    loginsuccessful = true;
+                } else {
+                    System.out.println("Invalid password");
+                }
+            } else {
+                System.out.println("Username not found");
+            }
         }
+        scanner.close();
     }
 
     /**

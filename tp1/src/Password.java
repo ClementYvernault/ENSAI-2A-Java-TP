@@ -1,5 +1,6 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,10 +117,11 @@ public class Password {
      *         true if the password is strong, false otherwise
      */
     public static HashMap<String, Boolean> checkPasswordsList(ArrayList<String> passwords) {
-
-        // Code here
-
-        return null;
+        HashMap<String, Boolean> CheckPassword = new HashMap<String, Boolean>();
+        for (String pwd : passwords) {
+            CheckPassword.put(pwd, isStrongPassword(pwd));
+        }
+        return CheckPassword;
     }
 
     /**
@@ -134,11 +136,46 @@ public class Password {
      * @param nbCar The desired length of the password (minimum 4).
      * @return A randomly generated password that meets the security criteria.
      */
+
     public static String generatePassword(int nbCar) {
+        SecureRandom random = new SecureRandom();
 
-        // Code here
+        int nb_upper = random.nextInt(nbCar - 3) + 1; // Au moins 1 majuscule
+        int nb_lower = random.nextInt(nbCar - nb_upper - 2) + 1;
+        int nb_digit = random.nextInt(nbCar - nb_upper - nb_lower - 1) + 1;
+        int nb_special = nbCar - nb_upper - nb_lower - nb_digit;
 
-        return null;
+        // Listes des caractères possibles
+        String upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerChars = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String specialChars = "!@#$%^&*()-_=+[]{}|;:,.<>?/";
+
+        StringBuilder password = new StringBuilder();
+
+        // Ajouter les majuscules
+        for (int i = 0; i < nb_upper; i++) {
+            password.append(upperChars.charAt(random.nextInt(upperChars.length())));
+        }
+
+        // Ajouter les minuscules
+        for (int i = 0; i < nb_lower; i++) {
+            password.append(lowerChars.charAt(random.nextInt(lowerChars.length())));
+        }
+
+        // Ajouter les chiffres
+        for (int i = 0; i < nb_digit; i++) {
+            password.append(digits.charAt(random.nextInt(digits.length())));
+        }
+
+        // Ajouter les caractères spéciaux
+        for (int i = 0; i < nb_special; i++) {
+            password.append(specialChars.charAt(random.nextInt(specialChars.length())));
+        }
+
+        // Il faudrait rajouter une fonction pour mélanger le mdp
+        String finalPassword = password.toString();
+        return finalPassword;
     }
 
     public static void main(String[] args) {
