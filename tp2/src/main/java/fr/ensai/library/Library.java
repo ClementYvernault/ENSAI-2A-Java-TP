@@ -1,5 +1,6 @@
 package fr.ensai.library;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,20 +12,28 @@ import java.net.URL;
 public class Library {
     // Attributes
     private String name;
-    private ArrayList<Book> Books;
+    private List<Item> Items;
 
-    public void addBook(Book book){
-        this.Books.add(book);
+    /**
+     * Constructs a new Library object.
+     */
+    public Library(String name){
+        this.name = name;
+        this.Items = new ArrayList<>();
     }
 
-    public void displayBooks(){
-        if (!this.Books.isEmpty()){
-                        for (Book book : this.Books) {
-                            System.out.println(book.toString());
+    public void addItem(Item item){
+        this.Items.add(item);
+    }
+
+    public void displayItems(){
+        if (!this.Items.isEmpty()){
+                        for (Item item : this.Items) {
+                            System.out.println(item);
                         };
         }
         else { System.err.println(
-            "Warning: No book in the Library");} 
+            "Warning: No item in the Library");} 
     }
 
     /**
@@ -56,13 +65,13 @@ public class Library {
                     // Check if author already exists in the map
                     Author author = authors.get(authorName);
                     if (author == null) {
-                        author = new Author(authorName);
+                        author = new Author(authorName, 0, "");
                         authors.put(authorName, author);
                         System.out.println(author.toString());
                     }
                     Book book = new Book(isbn, title, author, year, pageCount);
 
-                    this.addIem(book);
+                    this.addItem(book);
                 }
             }
         } catch (
