@@ -1,6 +1,8 @@
 package fr.ensai.library;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +13,19 @@ public class Library {
     private String name;
     private ArrayList<Book> Books;
 
+    public void addBook(Book book){
+        this.Books.add(book);
+    }
+
+    public void displayBooks(){
+        if (!this.Books.isEmpty()){
+                        for (Book book : this.Books) {
+                            System.out.println(book.toString());
+                        };
+        }
+        else { System.err.println(
+            "Warning: No book in the Library");} 
+    }
 
     /**
      * Loads books from a CSV file and adds them to the library.
