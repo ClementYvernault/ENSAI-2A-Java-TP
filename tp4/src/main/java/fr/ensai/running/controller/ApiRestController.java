@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.ensai.running.model.Athlete;
+import fr.ensai.running.model.Competition;
 import fr.ensai.running.service.AthleteService;
+import fr.ensai.running.service.CompetitionService;
 
 @RestController
 @RequestMapping("/api")
@@ -57,4 +59,30 @@ public class ApiRestController {
         return athleteService.save(athlete);
     }
 
+    @Autowired
+    private CompetitionService competitionService;
+
+    /**
+     * Get all competitions
+     */
+    @GetMapping("/competition")
+    public List<Competition> getAllCompetitions() {
+        return competitionService.findAll();
+    }
+
+    /**
+     * Get a competition by id
+     */
+    @GetMapping("/competition/{id}")
+    public Competition getCompetitionById(@PathVariable Long id) {
+        return competitionService.findById(id);
+    }
+
+    /**
+     * Delete a competition by id
+     */
+    @DeleteMapping("/competition/{id}")
+    public void deleteCompetitionById(@PathVariable Long id) {
+        competitionService.deleteById(id);
+    }
 }
